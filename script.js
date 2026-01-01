@@ -2,7 +2,7 @@
 window.addEventListener('load', () => {
   // Scroll to top on page load
   window.scrollTo(0, 0);
-
+  
   // Set home as active in navigation
   const homeLink = document.querySelector('.nav-links a[href="#home"]');
   if (homeLink) {
@@ -41,7 +41,7 @@ const navLinks = document.querySelector('.nav-links');
 if (mobileToggle) {
   mobileToggle.addEventListener('click', () => {
     navLinks.classList.toggle('active');
-
+    
     // Animate hamburger icon
     const spans = mobileToggle.querySelectorAll('span');
     if (navLinks.classList.contains('active')) {
@@ -72,11 +72,11 @@ const navLinksArray = document.querySelectorAll('.nav-links a');
 
 window.addEventListener('scroll', () => {
   let current = '';
-
+  
   sections.forEach(section => {
     const sectionTop = section.offsetTop;
     const sectionHeight = section.clientHeight;
-
+    
     if (window.pageYOffset >= sectionTop - 200) {
       current = section.getAttribute('id');
     }
@@ -94,6 +94,9 @@ window.addEventListener('scroll', () => {
 // Contact form submission with animations
 const contactForm = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
+
+// Your backend URL
+const BACKEND_URL = 'https://portfolio-backend-eta-ivory-75.vercel.app/api/contact';
 
 function showToast(message, type) {
   const toastIcon = toast.querySelector('.toast-icon');
@@ -132,22 +135,29 @@ if (contactForm) {
     submitBtn.disabled = true;
 
     try {
-      // Send to Formspree
-      const response = await fetch(contactForm.action, {
+      // Send to your backend
+      const response = await fetch(BACKEND_URL, {
         method: 'POST',
-        body: formData,
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message
+        })
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         showToast(`Thank you ${name}! Your message has been sent successfully.`, 'success');
         contactForm.reset();
       } else {
-        throw new Error('Failed to send message');
+        throw new Error(data.error || 'Failed to send message');
       }
     } catch (error) {
+      console.error('Error:', error);
       showToast('Failed to send message. Please try again later.', 'error');
     } finally {
       // Remove loading state
@@ -164,7 +174,7 @@ projectCards.forEach(card => {
   card.addEventListener('mouseenter', function() {
     this.style.zIndex = '10';
   });
-
+  
   card.addEventListener('mouseleave', function() {
     this.style.zIndex = '1';
   });
@@ -176,7 +186,7 @@ if (subtitle) {
   const text = subtitle.textContent;
   subtitle.textContent = '';
   let i = 0;
-
+  
   function typeWriter() {
     if (i < text.length) {
       subtitle.textContent += text.charAt(i);
@@ -184,7 +194,7 @@ if (subtitle) {
       setTimeout(typeWriter, 50);
     }
   }
-
+  
   // Start typing effect after a short delay
   setTimeout(typeWriter, 500);
 }
