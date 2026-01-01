@@ -111,9 +111,7 @@ window.addEventListener('scroll', () => {
 const contactForm = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
 
-// ⚠️ IMPORTANT: Switch between local testing and production
-// For LOCAL testing (with vercel dev):
-const BACKEND_URL = 'http://localhost:3000/api/contact';
+const BACKEND_URL = 'https://portfolio-backend-eta-ivory-75.vercel.app/api/contact';
 
 // For PRODUCTION (after deploying to Vercel):
 // const BACKEND_URL = 'https://your-project-name.vercel.app/api/contact';
@@ -229,3 +227,4 @@ if (subtitle) {
   // Start typing effect after a short delay
   setTimeout(typeWriter, 500);
 }
+
