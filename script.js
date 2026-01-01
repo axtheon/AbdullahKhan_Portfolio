@@ -1,3 +1,7 @@
+// ============================================
+// PAGE LOAD & SCROLL BEHAVIOR
+// ============================================
+
 // Ensure page loads at home section
 window.addEventListener('load', () => {
   // Scroll to top on page load
@@ -15,7 +19,10 @@ if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
-// Smooth scroll reveal animation
+// ============================================
+// SMOOTH SCROLL REVEAL ANIMATION
+// ============================================
+
 const sections = document.querySelectorAll("section");
 
 const observer = new IntersectionObserver(entries => {
@@ -34,7 +41,10 @@ sections.forEach(section => {
   observer.observe(section);
 });
 
-// Mobile navigation toggle
+// ============================================
+// MOBILE NAVIGATION
+// ============================================
+
 const mobileToggle = document.querySelector('.mobile-toggle');
 const navLinks = document.querySelector('.nav-links');
 
@@ -67,7 +77,10 @@ if (mobileToggle) {
   });
 }
 
-// Active navigation link based on scroll position
+// ============================================
+// ACTIVE NAV LINK ON SCROLL
+// ============================================
+
 const navLinksArray = document.querySelectorAll('.nav-links a');
 
 window.addEventListener('scroll', () => {
@@ -91,13 +104,21 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// Contact form submission with animations
+// ============================================
+// CONTACT FORM HANDLING
+// ============================================
+
 const contactForm = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
 
-// Your backend URL
-const BACKEND_URL = 'https://portfolio-backend-eta-ivory-75.vercel.app/api/contact';
+// ⚠️ IMPORTANT: Switch between local testing and production
+// For LOCAL testing (with vercel dev):
+const BACKEND_URL = 'http://localhost:3000/api/contact';
 
+// For PRODUCTION (after deploying to Vercel):
+// const BACKEND_URL = 'https://your-project-name.vercel.app/api/contact';
+
+// Toast notification function
 function showToast(message, type) {
   const toastIcon = toast.querySelector('.toast-icon');
   const toastMessage = toast.querySelector('.toast-message');
@@ -120,6 +141,7 @@ function showToast(message, type) {
   }, 5000);
 }
 
+// Form submission handler
 if (contactForm) {
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -148,17 +170,20 @@ if (contactForm) {
         })
       });
 
+      // Parse response
       const data = await response.json();
 
+      // Check if request was successful
       if (response.ok) {
         showToast(`Thank you ${name}! Your message has been sent successfully.`, 'success');
         contactForm.reset();
       } else {
+        // Show error message from backend
         throw new Error(data.error || 'Failed to send message');
       }
     } catch (error) {
       console.error('Error:', error);
-      showToast('Failed to send message. Please try again later.', 'error');
+      showToast(error.message || 'Failed to send message. Please try again later.', 'error');
     } finally {
       // Remove loading state
       submitBtn.classList.remove('loading');
@@ -167,7 +192,10 @@ if (contactForm) {
   });
 }
 
-// Add hover effect to project cards
+// ============================================
+// PROJECT CARDS HOVER EFFECT
+// ============================================
+
 const projectCards = document.querySelectorAll('.project-card');
 
 projectCards.forEach(card => {
@@ -180,7 +208,10 @@ projectCards.forEach(card => {
   });
 });
 
-// Add typing effect to hero subtitle (optional enhancement)
+// ============================================
+// HERO TYPING EFFECT
+// ============================================
+
 const subtitle = document.querySelector('.subtitle');
 if (subtitle) {
   const text = subtitle.textContent;
